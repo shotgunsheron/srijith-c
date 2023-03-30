@@ -7,16 +7,13 @@ from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 
 def plot_stock_predictions(ticker):
-    # Retrieve stock data
     stock = yf.Ticker(ticker)
     data = stock.history(period="max")
     data = data[["Close"]]
     
-    # Normalize data
     scaler = MinMaxScaler()
     data = scaler.fit_transform(data)
     
-    # Prepare data for LSTM model
     X_train, y_train = [], []
     for i in range(60, len(data)):
         X_train.append(data[i-60:i, 0])
@@ -24,7 +21,6 @@ def plot_stock_predictions(ticker):
     X_train, y_train = np.array(X_train), np.array(y_train)
     X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
     
-    # Create LSTM model
     model = Sequential()
     model.add(LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
     model.add(LSTM(units=50))
@@ -32,7 +28,6 @@ def plot_stock_predictions(ticker):
     model.compile(optimizer="adam", loss="mean_squared_error")
     model.fit(X_train, y_train, epochs=1, batch_size=32)
     
-    # Generate predictions
     predictions = []
     for i in range(1, 91):
         X_test = data[-60:]
@@ -41,7 +36,6 @@ def plot_stock_predictions(ticker):
         predictions.append(predicted_price[0][0])
         data = np.append(data, predicted_price, axis=0)
     
-    # Denormalize data
     predictions = scaler.inverse_transform([predictions])
     predictions = predictions[0]
     
