@@ -1,13 +1,10 @@
-// Define the pins for the speaker and button
 int speakerPin = 9;
 
 void setup() {
-  // Set the speaker pin as an output
   pinMode(speakerPin, OUTPUT);
 }
 
 void loop() {
-  // Define the frequency of each note in the C major scale
   int c = 262;
   int d = 294;
   int e = 330;
@@ -17,7 +14,6 @@ void loop() {
   int b = 494;
   int c2 = 523;
   
-  // Play the C major scale using the tone() function and delay()
   tone(speakerPin, c);
   delay(500);
   tone(speakerPin, d);
