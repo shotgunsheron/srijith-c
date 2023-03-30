@@ -26,7 +26,7 @@ def plot_stock_predictions(ticker):
     model.add(LSTM(units=50))
     model.add(Dense(units=1))
     model.compile(optimizer="adam", loss="mean_squared_error")
-    model.fit(X_train, y_train, epochs=1, batch_size=32)
+    model.fit(X_train, y_train, epochs=25, batch_size=32)
     
     predictions = []
     for i in range(1, 91):
